@@ -1,40 +1,39 @@
 pipeline {
-  agent any
-  tools {
-    maven 'M2_HOME'
-  }
-  environment {
-    registry = "qwekulynx/devops-code1"
-    registryCredential = 'dockerhub'   // <-- This is the ID you created in Jenkins credentials
-  }
-  stages {
-    stage('Build') {
-      steps {
-        sh 'mvn clean install package'
-      }
+    agent any
+
+    tools {
+        maven 'M2_HOME'   // Make sure you have Maven configured in Jenkins (Manage Jenkins -> Global Tool Configuration)
     }
-    stage('Test') {
-      steps {
-        echo "Running tests..."
-        sh 'mvn test'
-      }
+
+    environment {
+        registry = "qwekulynx/devops-code1"
+        registryCredential = 'dockerhub'   // Jenkins credentials ID for DockerHub
     }
-    stage('Build Docker Image') {
-      steps {
-        script {
-          dockerImage = docker.build("${registry}:${BUILD_NUMBER}")
+
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn clean install package'
+            }
         }
-      }
-    }
-    stage('Push Image') {
-      steps {
-        script {
-          docker.withRegistry('https://index.docker.io/v1/', registryCredential) {
-            dockerImage.push()
-            dockerImage.push("latest")   // keep a 'latest' tag always
-          }
+
+        stage('Test') {
+            steps {
+                echo "Running tests..."
+                sh 'mvn test'
+            }
         }
-      }
+
+        stage('Docker Build & Push') {
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', registryCredential) {
+                        def app = docker.build("${registry}:${env.BUILD_NUMBER}")
+                        app.push()
+                        app.push("latest")   // keep a rolling latest tag
+                    }
+                }
+            }
+        }
     }
-  }
 }
