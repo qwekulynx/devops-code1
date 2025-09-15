@@ -1,107 +1,42 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example.maven-project</groupId>
-    <artifactId>devop-code11</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+  <groupId>com.example.maven-project</groupId>
+  <artifactId>maven-project</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
-    <name>devop-code11</name>
-    <description>Updated project using Java 17 and newest Maven plugin versions</description>
+  <name>Maven Multi-Module Project</name>
+  <description>Parent project for multi-module build.</description>
 
-    <properties>
-        <!-- Java version -->
-        <java.version>17</java.version>
-        <!-- Encoding -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <!-- Compiler plugin version -->
-        <maven.compiler.plugin.version>3.14.0</maven.compiler.plugin.version>
-        <!-- Maven source/target version -->
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
-        <!-- Optionally release -->
-        <maven.compiler.release>${java.version}</maven.compiler.release>
-    </properties>
+  <modules>
+    <module>server</module>
+    <!-- Add other modules here later -->
+  </modules>
 
-    <modules>
-        <module>server</module>
-    </modules>
+  <properties>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <!-- Compiler plugin configuration -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${maven.compiler.plugin.version}</version>
-                    <configuration>
-                        <source>${maven.compiler.source}</source>
-                        <target>${maven.compiler.target}</target>
-                        <!-- Alternatively using release -->
-                        <release>${maven.compiler.release}</release>
-                    </configuration>
-                </plugin>
-
-                <!-- Other plugin upgrades can go here, e.g. surefire etc. -->
-            </plugins>
-        </pluginManagement>
-
-        <plugins>
-            <!-- Actually use the compiler plugin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <!-- version can be repeated or inherited -->
-                <version>${maven.compiler.plugin.version}</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                    <release>${maven.compiler.release}</release>
-                </configuration>
-            </plugin>
-
-            <!-- Clean plugin configuration (optional) -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <!-- failOnError false so locked files do not kill build immediately -->
-                    <failOnError>false</failOnError>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-    <dependencies>
-        <!-- Add your dependencies here -->
-        <!-- Example: -->
-        <!--
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <version>2.7.10</version>
-        </dependency>
-        -->
-    </dependencies>
-
-    <reporting>
-        <plugins>
-            <!-- Example reporting plugin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.12.1</version>
-            </plugin>
-        </plugins>
-    </reporting>
+  <build>
+    <plugins>
+      <!-- Maven Compiler Plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
+          <release>${maven.compiler.target}</release>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
-
