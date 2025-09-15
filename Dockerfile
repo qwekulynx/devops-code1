@@ -1,8 +1,11 @@
-# Pull base image 
-From tomcat:8-jre8 
+# Pull base image with Java
+FROM openjdk:21-jdk
 
-# Maintainer 
-MAINTAINER "ike" 
-COPY webapp/target/devops7.war /usr/local/tomcat/webapps
-#COPY webapp/welcome.war /usr/local/tomcat/webapps
-#docker file...
+# Maintainer
+MAINTAINER "Elias"
+
+# Copy the jar built by Maven
+COPY server/target/server.jar /app/server.jar
+
+# Run the jar
+ENTRYPOINT ["java", "-jar", "/app/server.jar"]
