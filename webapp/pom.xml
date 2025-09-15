@@ -11,7 +11,7 @@
   </parent>
 
   <artifactId>devops7</artifactId>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
   <name>devops7</name>
   <description>devops7.</description>
 
