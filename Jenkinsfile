@@ -1,41 +1,40 @@
 pipeline {
   agent any
   tools {
-     maven 'M2_HOME'
+    maven 'M2_HOME'
   }
   environment {
-    registry = "ikecook1/devopspipeline2023"
-    registryCredential = 'dockerUserID'
+    registry = "qwekulynx/devops-code1"
+    registryCredential = 'dockerUserID'   // Jenkins credentials ID for DockerHub
   }
   stages {
-    stage('Build'){
+    stage('Build') {
       steps {
-       sh 'mvn clean'
-       sh 'mvn install'
-       sh 'mvn package'
+        sh 'mvn clean install package'
       }
     }
-    stage('test'){
+    stage('Test') {
       steps {
-       echo "test step"
-       sh 'mvn test'
+        echo "Running tests..."
+        sh 'mvn test'
       }
     }
-    stage('Deploy'){
+    stage('Build Docker Image') {
       steps {
-       script {
-        docker.build registry + ":$BUILD_NUMBER"
-       }
-       }
-      }
-      stage('Push Image') {
-      steps{
         script {
-          docker.withRegistry( '', registryCredential ) {
+          dockerImage = docker.build("${registry}:${BUILD_NUMBER}")
+        }
+      }
+    }
+    stage('Push Image') {
+      steps {
+        script {
+          docker.withRegistry('', registryCredential) {
             dockerImage.push()
+            dockerImage.push("latest")   // keep a 'latest' tag always
           }
+        }
+      }
     }
   }
-}
- }
 }
