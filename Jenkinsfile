@@ -5,7 +5,7 @@ pipeline {
   }
   environment {
     registry = "qwekulynx/devops-code1"
-    registryCredential = 'dockerUserID'   // Jenkins credentials ID for DockerHub
+    registryCredential = 'dockerhub'   // <-- This is the ID you created in Jenkins credentials
   }
   stages {
     stage('Build') {
@@ -29,7 +29,7 @@ pipeline {
     stage('Push Image') {
       steps {
         script {
-          docker.withRegistry('', registryCredential) {
+          docker.withRegistry('https://index.docker.io/v1/', registryCredential) {
             dockerImage.push()
             dockerImage.push("latest")   // keep a 'latest' tag always
           }
