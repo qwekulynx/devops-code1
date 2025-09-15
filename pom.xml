@@ -31,7 +31,6 @@
 
     <modules>
         <module>server</module>
-        <module>devops7</module>
     </modules>
 
     <build>
